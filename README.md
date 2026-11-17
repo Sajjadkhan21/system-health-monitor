@@ -59,40 +59,6 @@ cat data/system_health.csv
 
 > Adjust `/app/data` to the folder your script writes to inside the container.
 
-## Push the Image to a Private Docker Hub Repo
-
-```bash
-docker login
-docker tag sysmetrics:latest YOUR_DOCKERHUB_USERNAME/sysmetrics:latest
-docker push YOUR_DOCKERHUB_USERNAME/sysmetrics:latest
-```
-
-## Deploy on AWS EC2
-
-1. Launch an EC2 instance (Amazon Linux or Ubuntu) and connect via SSH (Linux terminal) or PuTTY (Windows).
-2. Install Docker:
-   ```bash
-   sudo dnf install -y docker          # Amazon Linux
-   sudo systemctl enable --now docker
-   sudo usermod -aG docker ec2-user
-   ```
-3. Log in and pull the private image:
-   ```bash
-   docker login
-   docker pull YOUR_DOCKERHUB_USERNAME/sysmetrics:latest
-   ```
-4. Run the container:
-   ```bash
-   mkdir -p ~/metrics
-   docker run -d --name sysmetrics --restart unless-stopped \
-     -v ~/metrics:/app/data \
-     YOUR_DOCKERHUB_USERNAME/sysmetrics:latest
-   ```
-5. Verify:
-   ```bash
-   docker ps
-   docker logs sysmetrics
-   ```
 
 ## Author
 
